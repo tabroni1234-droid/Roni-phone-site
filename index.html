@@ -114,7 +114,6 @@
             letter-spacing: 1px;
         }
 
-        /* 必填星號調色 */
         label .required {
             color: #ff5252;
             margin-left: 4px;
@@ -151,13 +150,23 @@
             box-shadow: 0 0 20px rgba(223, 193, 123, 0.18);
         }
 
-        /* 防呆錯誤提示發光 */
         input.error, textarea.error {
             border-color: #ff5252 !important;
             box-shadow: 0 0 15px rgba(255, 82, 82, 0.25) !important;
         }
 
-        /* 快速帶入標籤樣式 */
+        /* 隱藏的動態輸入框容器與絲滑展開動畫 */
+        .conditional-input {
+            display: none;
+            margin-top: 12px;
+            animation: slideDown 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .quick-tags {
             display: flex;
             gap: 8px;
@@ -190,7 +199,6 @@
             line-height: 1.6;
         }
 
-        /* 按鈕群組 */
         .btn-group {
             display: flex;
             gap: 14px;
@@ -359,7 +367,13 @@
 
             <div class="form-group">
                 <label>13. 未開體驗原因</label>
-                <input type="text" id="q13" placeholder="例：直接拒絕、時間近期無法配合">
+                <select id="q13_select" onchange="toggleReasonInput(this.value)">
+                    <option value="無">無</option>
+                    <option value="custom">輸入原因</option>
+                </select>
+                <div id="q13_custom_container" class="conditional-input">
+                    <input type="text" id="q13_custom_input" placeholder="請打字輸入未開體驗的具體原因">
+                </div>
             </div>
 
             <div class="form-group">
@@ -398,6 +412,18 @@ function fillField(id, val) {
     document.getElementById(id).value = val;
 }
 
+// 控制原因輸入框的顯示與隱藏
+function toggleReasonInput(val) {
+    let container = document.getElementById("q13_custom_container");
+    if(val === "custom") {
+        container.style.display = "block";
+        document.getElementById("q13_custom_input").focus();
+    } else {
+        container.style.display = "none";
+        document.getElementById("q13_custom_input").value = ""; // 清空內容
+    }
+}
+
 function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -418,6 +444,10 @@ function resetForm() {
         document.getElementById('q1_date').value = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
         let savedConsultant = localStorage.getItem('selectedConsultant');
         if (savedConsultant) document.getElementById('q1_consultant').value = savedConsultant;
+        
+        // 重設動態輸入框
+        document.getElementById("q13_custom_container").style.display = "none";
+        
         switchTab('tab1');
     }
 }
@@ -441,6 +471,14 @@ function copyAndGoToLine() {
     let dateVal = document.getElementById("q1_date").value;
     let consultantVal = document.getElementById("q1_consultant").value;
     
+    // 智慧判定第 13 題的最終文字內容
+    let q13Select = document.getElementById("q13_select").value;
+    let q13FinalValue = "無";
+    if(q13Select === "custom") {
+        let customInput = document.getElementById("q13_custom_input").value.trim();
+        q13FinalValue = customInput ? customInput : "無"; // 如果點了自訂卻沒填，預設帶無
+    }
+    
     let textText = "❌未成交回報❌\n" +
         "1.日期/顧問：" + dateVal + " / " + consultantVal + "\n" +
         "2.姓名：" + q2.value + "\n" +
@@ -454,11 +492,10 @@ function copyAndGoToLine() {
         "10.今天來看健身房需求/動機：" + q10.value + "\n" +
         "11.未成交原因/訪客問題：" + q11.value + "\n" +
         "12.體驗天數：" + document.getElementById("q12").value + "\n" +
-        "13.未開體驗原因：" + document.getElementById("q13").value + "\n" +
+        "13.未開體驗原因：" + q13FinalValue + "\n" +
         "14.何時確認入會意願：" + document.getElementById("q14").value;
 
     navigator.clipboard.writeText(textText).then(function() {
-        // 修改為您指定的專屬祝賀詞
         alert("已為您複製到剪貼簿，直接於群組貼上即可！Roni祝您大爆單！");
     }).catch(function() {
         alert("複製失敗，請手動全選複製。");
