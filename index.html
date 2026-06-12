@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❌未成交回報❌</title>
+    <style>
+        /* 整體質感字體與背景設定 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            background-color: #f8f9fa;
+            color: #333333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 表單容器防溢出與陰影 */
+        .form-container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-sizing: border-box;
+        }
+
+        /* 標題設計 */
+        h2 {
+            text-align: center;
+            color: #d9534f;
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 24px;
+            letter-spacing: 1px;
+        }
+
+        /* 每一題的區塊 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        /* 題目字體樣式 */
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #4a4a4a;
+            font-size: 15px;
+        }
+
+        /* 輸入欄位質感設計 */
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        /* 點擊欄位時的亮框特效 */
+        input[type="text"]:focus, textarea:focus {
+            border-color: #a0a0a0;
+            background-color: #ffffff;
+            outline: none;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.03);
+        }
+
+        /* 適合打長文的未成交原因等欄位 */
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        /* 按鈕設計 */
+        .submit-btn {
+            width: 100%;
+            background-color: #06C755; /* LINE 的經典綠色 */
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.2);
+            transition: all 0.2s ease;
+            margin-top: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 6px rgba(6, 199, 85, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2>❌未成交回報❌</h2>
+    
+    <form id="reportForm">
+        <div class="form-group">
+            <label>1. 日期/顧問：</label>
+            <input type="text" id="q1" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>2. 姓名：</label>
+            <input type="text" id="q2" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>3. 來源（Ap/Br/Wi/Ti/網路名單/推體）：</label>
+            <input type="text" id="q3" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>4. 推薦名單是否：</label>
+            <input type="text" id="q4" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>5. 住家在哪/車程：</label>
+            <input type="text" id="q5" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>6. 公司在哪/職業：</label>
+            <input type="text" id="q6" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>7. 運動時段：</label>
+            <input type="text" id="q7" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>8. 有無健身房經驗：</label>
+            <input type="text" id="q8" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>9. 從哪出發來健身路程/車程：</label>
+            <input type="text" id="q9" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>10. 今天來看健身房需求/動機：</label>
+            <textarea id="q10" placeholder="請輸入"></textarea>
+        </div>
+        <div class="form-group">
+            <label>11. 未成交原因/訪客問題：</label>
+            <textarea id="q11" placeholder="請輸入"></textarea>
+        </div>
+        <div class="form-group">
+            <label>12. 體驗天數：</label>
+            <input type="text" id="q12" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>13. 未開體驗原因：</label>
+            <input type="text" id="q13" placeholder="請輸入">
+        </div>
+        <div class="form-group">
+            <label>14. 何時確認入會意願：</label>
+            <input type="text" id="q14" placeholder="請輸入">
+        </div>
+
+        <button type="button" class="submit-btn" onclick="copyAndGoToLine()">✨ 完成並複製到剪貼簿</button>
+    </form>
+</div>
+
+<script>
+function copyAndGoToLine() {
+    // 組合複製的文字格式
+    let textText = "❌未成交回報❌\n" +
+        "1.日期/顧問：" + document.getElementById("q1").value + "\n" +
+        "2.姓名：" + document.getElementById("q2").value + "\n" +
+        "3.來源（Ap/Br/Wi/Ti/網路名單/推體）：" + document.getElementById("q3").value + "\n" +
+        "4.推薦名單是否：" + document.getElementById("q4").value + "\n" +
+        "5.住家在哪/車程：" + document.getElementById("q5").value + "\n" +
+        "6.公司在哪/職業 ：" + document.getElementById("q6").value + "\n" +
+        "7.運動時段：" + document.getElementById("q7").value + "\n" +
+        "8.有無健身房經驗：" + document.getElementById("q8").value + "\n" +
+        "9.從哪出發來健身路程/車程：" + document.getElementById("q9").value + "\n" +
+        "10.今天來看健身房需求/動機：" + document.getElementById("q10").value + "\n" +
+        "11.未成交原因/訪客問題：" + document.getElementById("q11").value + "\n" +
+        "12.體驗天數：" + document.getElementById("q12").value + "\n" +
+        "13.未開體驗原因：" + document.getElementById("q13").value + "\n" +
+        "14.何時確認入會意願：" + document.getElementById("q14").value;
+
+    // 執行複製到剪貼簿
+    navigator.clipboard.writeText(textText).then(function() {
+        alert("已成功複製回報內容！即將為您打開 LINE。");
+        // 跳轉到 LINE App
+        window.location.href = "line://";
+    }).catch(function(err) {
+        alert("複製失敗，請手動全選複製。錯誤原因: ", err);
+    });
+}
+</script>
+
+</body>
+</html>
