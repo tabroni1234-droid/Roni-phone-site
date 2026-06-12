@@ -60,15 +60,6 @@
             margin-bottom: 20px;
         }
 
-        .row-group {
-            display: flex;
-            gap: 16px;
-        }
-        .row-group .form-group {
-            flex: 1;
-            margin-bottom: 20px;
-        }
-
         label {
             display: block;
             font-weight: bold;
@@ -96,7 +87,6 @@
             transition: all 0.3s;
         }
         
-        /* 修正選擇框的箭頭在黑底下的外觀 */
         select {
             color: #ffffff;
             background-color: #0b0b0c;
@@ -146,7 +136,7 @@
             color: #0b0b0c;
         }
 
-        /* 按鈕群組 */
+        /* 按鈕操作區 */
         .btn-group {
             display: flex;
             gap: 14px;
@@ -202,21 +192,20 @@
 
     <form id="reportForm" class="section">
         
-        <div class="row-group">
-            <div class="form-group">
-                <label>1. 日期</label>
-                <input type="date" id="q1_date">
-            </div>
-            <div class="form-group">
-                <label>顧問</label>
-                <select id="q1_consultant" onchange="saveConsultant(this.value)">
-                    <option value="Zee">Zee</option>
-                    <option value="Wen">Wen</option>
-                    <option value="Peter">Peter</option>
-                    <option value="Allen">Allen</option>
-                    <option value="Roni">Roni</option>
-                </select>
-            </div>
+        <div class="form-group">
+            <label>1. 日期</label>
+            <input type="date" id="q1_date">
+        </div>
+
+        <div class="form-group">
+            <label>顧問</label>
+            <select id="q1_consultant" onchange="saveConsultant(this.value)">
+                <option value="Zee">Zee</option>
+                <option value="Wen">Wen</option>
+                <option value="Peter">Peter</option>
+                <option value="Allen">Allen</option>
+                <option value="Roni">Roni</option>
+            </select>
         </div>
 
         <div class="form-group">
@@ -246,15 +235,21 @@
             <label>5. 住家在哪/車程</label>
             <input type="text" id="q5" placeholder="例：西區 / 車程 10 分鐘">
             <div class="quick-tags">
-                <span class="tag" onclick="fillField('q5', '西區 / 車程 5 分鐘')">5分</span>
-                <span class="tag" onclick="fillField('q5', '東區 / 車程 15 分鐘')">15分</span>
-                <span class="tag" onclick="fillField('q5', '北區 / 車程 20 分鐘')">20分</span>
+                <span class="tag" onclick="fillField('q5', '民雄鄉')">民雄鄉</span>
+                <span class="tag" onclick="fillField('q5', '大林鎮')">大林鎮</span>
+                <span class="tag" onclick="fillField('q5', '中正大學附近')">中正大學附近</span>
+                <span class="tag" onclick="fillField('q5', '西區')">西區</span>
             </div>
         </div>
 
         <div class="form-group">
             <label>6. 公司在哪/職業</label>
             <input type="text" id="q6" placeholder="例：東區 / 辦公室內勤">
+            <div class="quick-tags">
+                <span class="tag" onclick="fillField('q6', '民雄鄉')">民雄鄉</span>
+                <span class="tag" onclick="fillField('q6', '大林鎮')">大林鎮</span>
+                <span class="tag" onclick="fillField('q6', '中正大學附近')">中正大學附近</span>
+            </div>
         </div>
 
         <div class="form-group">
@@ -340,7 +335,6 @@
             document.getElementById(id).value = val;
         }
 
-        // 控制原因輸入框的顯示與隱藏
         function toggleReasonInput(val) {
             let container = document.getElementById("q13_custom_container");
             if(val === "custom") {
