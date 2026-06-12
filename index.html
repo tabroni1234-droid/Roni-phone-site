@@ -6,12 +6,15 @@
     <title>未成交回報系統</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700&family=Noto+Serif+TC:wght=500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 全站黑金風格 - 強制將思源宋體順序提到最前面 */
+        /* 全站黑金風格 - 強制全域套用思源宋體 */
+        * {
+            font-family: 'Noto Serif TC', 'Songti TC', 'SimSun', 'Georgia', serif !important;
+        }
+
         body {
-            font-family: 'Noto Serif TC', 'Georgia', 'Songti TC', 'SimSun', serif;
             background-color: #0b0b0c; /* 奢華微光黑 */
             color: #e2e8f0;
             padding: 20px 15px;
@@ -21,7 +24,7 @@
         }
         
         h2 {
-            font-family: 'Cinzel', 'Noto Serif TC', 'Songti TC', serif;
+            font-family: 'Cinzel', 'Noto Serif TC', 'Songti TC', serif !important;
             color: #c5a880; /* 香檳金 */
             text-align: center;
             letter-spacing: 3px;
@@ -61,10 +64,10 @@
             margin-bottom: 20px;
         }
 
-        /* 日期與顧問群組：日期經微調縮小，且並排完美對齊 */
+        /* 日期與顧問群組：精細調整比例 */
         .date-consultant-group {
             display: grid;
-            grid-template-columns: 4.8fr 5.2fr; /* 精細調整日期比例，使其更小 */
+            grid-template-columns: 4.8fr 5.2fr; 
             gap: 12px;
             margin-bottom: 20px;
             align-items: flex-end;
@@ -87,29 +90,36 @@
             margin-left: 4px;
         }
 
-        /* 輸入框與選擇框：全數強制套用思源宋體 */
+        /* 👑 核心修正：解除 iOS 瀏覽器對輸入框字體的頑強控制 */
         input[type="text"], input[type="date"], select, textarea {
+            -webkit-appearance: none; /* 剝奪 iOS 預設黑體樣式 */
+            -moz-appearance: none;
+            appearance: none;
             width: 100%;
             padding: 11px 10px;
             background-color: #0b0b0c;
-            color: #ffffff;
+            color: #ffffff !important;
             border: 1px solid #2c2c2e;
             box-sizing: border-box;
-            font-size: 14px; /* 稍微縮小字體更顯精緻 */
-            font-family: 'Noto Serif TC', 'Songti TC', serif;
+            font-size: 14px; 
             transition: all 0.3s;
-            border-radius: 0px; /* 維持與截圖一相同的高級俐落直角 */
+            border-radius: 0px; /* 完美直角 */
         }
         
-        /* 針對 iOS 手機日期輸入框字體微調 */
+        /* 針對 iOS 日期欄位做特殊的內建圖標隱藏與字體微調 */
         input[type="date"] {
             font-size: 13.5px; 
-            padding: 10px 6px;
+            padding: 10px 8px;
+            min-height: 43px;
         }
         
+        /* 讓下拉選單在 iOS 上依然保有右側自訂小箭頭（選填，維持簡潔亦可不加，這邊幫你加上優雅的倒三角形） */
         select {
-            color: #ffffff;
-            background-color: #0b0b0c;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23c5a880' d='M0 0l5 6 5-6z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 10px 6px;
+            padding-right: 30px; 
         }
 
         input:focus, select:focus, textarea:focus {
@@ -143,7 +153,6 @@
         }
         .tag {
             font-size: 12px;
-            font-family: 'Noto Serif TC', 'Songti TC', serif;
             background-color: rgba(197, 168, 128, 0.05);
             color: #c5a880;
             border: 1px solid rgba(197, 168, 128, 0.2);
@@ -170,7 +179,6 @@
             border: none;
             padding: 15px;
             font-size: 16px;
-            font-family: 'Noto Serif TC', serif;
             cursor: pointer;
             font-weight: 700;
             letter-spacing: 2px;
@@ -189,7 +197,6 @@
             border: 1px solid #2c2c2e;
             padding: 15px;
             font-size: 15px;
-            font-family: 'Noto Serif TC', serif;
             cursor: pointer;
             transition: all 0.2s ease;
         }
@@ -349,7 +356,6 @@
             }
         };
 
-        // 當來源改變時，自動判定推薦名單是否為「是」或「否」
         function handleSourceChange(val) {
             let q4Select = document.getElementById("q4");
             if(val === "推薦體驗") {
