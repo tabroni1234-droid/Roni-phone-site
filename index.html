@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>❌未成交回報❌</title>
     <style>
-        /* 黑金奢華與宋體字型設定 */
         body {
             font-family: "Noto Serif TC", "Songti TC", "MS Sung", "華康宋體", "PMingLiU", "新細明體", serif;
             background-color: #0d0d0d;
@@ -16,19 +15,17 @@
             justify-content: center;
         }
 
-        /* 黑金質感表單容器 */
         .form-container {
             background-color: #161616;
             width: 100%;
             max-width: 500px;
             padding: 30px 25px;
             border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-            border: 1px solid #c5a059; /* 奢華霧金邊框 */
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.9);
+            border: 1px solid #c5a059;
             box-sizing: border-box;
         }
 
-        /* 標題設計 - 高亮金 */
         h2 {
             text-align: center;
             color: #d4af37; 
@@ -37,15 +34,13 @@
             font-size: 24px;
             letter-spacing: 2px;
             font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 8px rgba(212,175,55,0.3);
         }
 
-        /* 每一題的區塊 */
         .form-group {
             margin-bottom: 22px;
         }
 
-        /* 並排顯示區塊 */
         .row-group {
             display: flex;
             gap: 12px;
@@ -55,17 +50,15 @@
             margin-bottom: 0;
         }
 
-        /* 題目字體樣式 */
         label {
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #c5a059; /* 霧金字體 */
+            color: #c5a059;
             font-size: 15px;
             letter-spacing: 0.5px;
         }
 
-        /* 黑金輸入欄位、下拉選單、文字方塊 */
         input[type="text"], input[type="date"], select, textarea {
             width: 100%;
             padding: 12px 14px;
@@ -77,10 +70,9 @@
             font-family: inherit;
             transition: all 0.3s ease;
             box-sizing: border-box;
-            -webkit-appearance: none; /* 修正 iOS 預設樣式 */
+            -webkit-appearance: none;
         }
 
-        /* 下拉選單金色箭頭圖示 */
         select {
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10px' height='10px' viewBox='0 0 24 24' fill='%23c5a059'><path d='M7 10l5 5 5-5z'/></svg>");
             background-repeat: no-repeat;
@@ -88,23 +80,27 @@
             padding-right: 30px;
         }
 
-        /* 點擊欄位時的聚焦特效（金光） */
         input:focus, select:focus, textarea:focus {
             border-color: #d4af37;
             background-color: #262626;
             outline: none;
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
         }
 
-        /* 文字方塊最小高度 */
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 85px;
         }
 
-        /* 黑金奢華按鈕設計 */
+        /* 按鈕區塊並排 */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
         .submit-btn {
-            width: 100%;
+            flex: 2;
             background-color: #1f1f1f;
             color: #d4af37;
             border: 1px solid #d4af37;
@@ -116,7 +112,6 @@
             cursor: pointer;
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
             transition: all 0.2s ease;
-            margin-top: 15px;
             letter-spacing: 1px;
         }
 
@@ -124,7 +119,24 @@
             transform: scale(0.98);
             background-color: #d4af37;
             color: #121212;
-            box-shadow: 0 2px 6px rgba(212, 175, 55, 0.3);
+        }
+
+        .reset-btn {
+            flex: 1;
+            background-color: #262626;
+            color: #888888;
+            border: 1px solid #3a3a3a;
+            padding: 16px;
+            font-size: 14px;
+            font-family: inherit;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .reset-btn:active {
+            background-color: #333333;
+            color: #bbbbbb;
         }
     </style>
 </head>
@@ -153,7 +165,7 @@
 
         <div class="form-group">
             <label>2. 姓名：</label>
-            <input type="text" id="q2" placeholder="請輸入姓名">
+            <input type="text" id="q2" placeholder="請輸入訪客姓名">
         </div>
 
         <div class="form-group">
@@ -176,37 +188,38 @@
 
         <div class="form-group">
             <label>5. 住家在哪/車程：</label>
-            <input type="text" id="q5" placeholder="請輸入">
+            <input type="text" id="q5" placeholder="例如：西區 / 車程 10 分鐘">
         </div>
         <div class="form-group">
             <label>6. 公司在哪/職業：</label>
-            <input type="text" id="q6" placeholder="請輸入">
+            <input type="text" id="q6" placeholder="例如：東區 / 辦公室內勤">
         </div>
         <div class="form-group">
             <label>7. 運動時段：</label>
-            <input type="text" id="q7" placeholder="請輸入">
+            <input type="text" id="q7" placeholder="例如：下班後 19:00 左右">
         </div>
         <div class="form-group">
             <label>8. 有無健身房經驗：</label>
-            <input type="text" id="q8" placeholder="請輸入">
+            <input type="text" id="q8" placeholder="例如：無，曾自主慢跑">
         </div>
         <div class="form-group">
             <label>9. 從哪出發來健身路程/車程：</label>
-            <input type="text" id="q9" placeholder="請輸入">
+            <input type="text" id="q9" placeholder="例如：從公司過來約 15 分鐘">
         </div>
 
         <div class="form-group">
             <label>10. 今天來看健身房需求/動機：</label>
-            <textarea id="q10" placeholder="請輸入動機..."></textarea>
+            <textarea id="q10" placeholder="例如：想減脂、增肌，改善久坐腰酸..."></textarea>
         </div>
         <div class="form-group">
             <label>11. 未成交原因/訪客問題：</label>
-            <textarea id="q11" placeholder="請輸入未成交原因..."></textarea>
+            <textarea id="q11" placeholder="例如：價格超出預期，表示想回去跟配偶商量..."></textarea>
         </div>
 
         <div class="form-group">
             <label>12. 體驗天數：</label>
             <select id="q12">
+                <option value="無">無</option>
                 <option value="1+3">1+3</option>
                 <option value="1+7">1+7</option>
                 <option value="14">14</option>
@@ -216,34 +229,42 @@
 
         <div class="form-group">
             <label>13. 未開體驗原因：</label>
-            <input type="text" id="q13" placeholder="請輸入">
+            <input type="text" id="q13" placeholder="例如：直接拒絕、時間無法配合">
         </div>
         <div class="form-group">
             <label>14. 何時確認入會意願：</label>
-            <input type="text" id="q14" placeholder="請輸入">
+            <input type="text" id="q14" placeholder="例如：預計下週一電話追蹤確認">
         </div>
 
-        <button type="button" class="submit-btn" onclick="copyAndGoToLine()">✨ 完成並複製到剪貼簿</button>
+        <div class="btn-group">
+            <button type="button" class="reset-btn" onclick="resetForm()">清空</button>
+            <button type="button" class="submit-btn" onclick="copyAndGoToLine()">✨ 完成並複製</button>
+        </div>
     </form>
 </div>
 
 <script>
-// 自動偵測當天日期
-window.onload = function() {
+function setTodayDate() {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0');
     let yyyy = today.getFullYear();
-    
-    let formattedDate = yyyy + '-' + mm + '-' + dd;
-    document.getElementById('q1_date').value = formattedDate;
-};
+    document.getElementById('q1_date').value = yyyy + '-' + mm + '-' + dd;
+}
+
+window.onload = setTodayDate;
+
+function resetForm() {
+    if(confirm("確定要清空目前填寫的所有內容嗎？")) {
+        document.getElementById("reportForm").reset();
+        setTodayDate(); // 重新帶入今日日期
+    }
+}
 
 function copyAndGoToLine() {
     let dateVal = document.getElementById("q1_date").value;
     let consultantVal = document.getElementById("q1_consultant").value;
     
-    // 組合要複製的純文字格式
     let textText = "❌未成交回報❌\n" +
         "1.日期/顧問：" + dateVal + " / " + consultantVal + "\n" +
         "2.姓名：" + document.getElementById("q2").value + "\n" +
@@ -255,17 +276,16 @@ function copyAndGoToLine() {
         "8.有無健身房經驗：" + document.getElementById("q8").value + "\n" +
         "9.從哪出發來健身路程/車程：" + document.getElementById("q9").value + "\n" +
         "10.今天來看健身房需求/動機：" + document.getElementById("q10").value + "\n" +
-        "11.未成交原因/訪客問題：" + document.getElementById("q11").value + "\n" +
+        "11.未成交原因/訪客問題 suicide：" + document.getElementById("q11").value + "\n" +
         "12.體驗天數：" + document.getElementById("q12").value + "\n" +
         "13.未開體驗原因：" + document.getElementById("q13").value + "\n" +
         "14.何時確認入會意願：" + document.getElementById("q14").value;
 
-    // 複製到剪貼簿並導向 LINE
     navigator.clipboard.writeText(textText).then(function() {
-        alert("已成功複製黑金版回報內容！即將為您打開 LINE。");
+        alert("已成功複製黑金優化版內容！即將為您打開 LINE。");
         window.location.href = "line://";
     }).catch(function(err) {
-        alert("複製失敗，請手動複製。錯誤代碼: ", err);
+        alert("複製失敗，請手動複製。");
     });
 }
 </script>
