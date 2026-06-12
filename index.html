@@ -6,7 +6,7 @@
     <title>未成交回報系統</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700&family=Noto+Serif+TC:wght=500;700&display=swap" rel="stylesheet">
     
     <style>
         /* 全站黑金風格 - 強制將思源宋體順序提到最前面 */
@@ -61,7 +61,7 @@
             margin-bottom: 20px;
         }
 
-        /* 👑 重新調校：縮小日期、放大顧問，防止過大或變形 */
+        /* 日期與顧問群組：日期經微調縮小，且並排完美對齊 */
         .date-consultant-group {
             display: grid;
             grid-template-columns: 4.8fr 5.2fr; /* 精細調整日期比例，使其更小 */
@@ -236,7 +236,7 @@
 
         <div class="form-group">
             <label>3. 來源</label>
-            <select id="q3">
+            <select id="q3" onchange="handleSourceChange(this.value)">
                 <option value="APT">APT</option>
                 <option value="BR">BR</option>
                 <option value="WI">WI</option>
@@ -348,6 +348,16 @@
                 document.getElementById('q1_consultant').value = savedConsultant;
             }
         };
+
+        // 當來源改變時，自動判定推薦名單是否為「是」或「否」
+        function handleSourceChange(val) {
+            let q4Select = document.getElementById("q4");
+            if(val === "推薦體驗") {
+                q4Select.value = "是";
+            } else {
+                q4Select.value = "否";
+            }
+        }
 
         function saveConsultant(val) {
             localStorage.setItem('selectedConsultant', val);
