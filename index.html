@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>未成交回報系統</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700&family=Noto+Serif+TC:wght=500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Noto+Serif+TC:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 全站黑金風格 */
+        /* 全站黑金風格 - 強制將思源宋體順序提到最前面 */
         body {
-            font-family: 'Noto Serif TC', 'SimSun', '宋體', serif;
+            font-family: 'Noto Serif TC', 'Georgia', 'Songti TC', 'SimSun', serif;
             background-color: #0b0b0c; /* 奢華微光黑 */
             color: #e2e8f0;
             padding: 20px 15px;
             max-width: 550px;
             margin: 0 auto;
+            -webkit-font-smoothing: antialiased;
         }
         
         h2 {
-            font-family: 'Cinzel', 'Noto Serif TC', serif;
+            font-family: 'Cinzel', 'Noto Serif TC', 'Songti TC', serif;
             color: #c5a880; /* 香檳金 */
             text-align: center;
             letter-spacing: 3px;
@@ -37,7 +40,7 @@
             padding-bottom: 15px;
         }
 
-        /* 金色 L 型對角線框一頁式容器 */
+        /* 金色 L 型對角線框容器 */
         .section {
             background: #111112; 
             padding: 25px 20px;
@@ -45,12 +48,10 @@
             position: relative;
             border: 1px solid #1c1c1e;
         }
-        /* 左上角金邊 */
         .section::before {
             content: ''; position: absolute; top: 8px; left: 8px; width: 12px; height: 12px;
             border-top: 2px solid #c5a880; border-left: 2px solid #c5a880; opacity: 0.7;
         }
-        /* 右下角金邊 */
         .section::after {
             content: ''; position: absolute; bottom: 8px; right: 8px; width: 12px; height: 12px;
             border-bottom: 2px solid #c5a880; border-right: 2px solid #c5a880; opacity: 0.7;
@@ -60,12 +61,13 @@
             margin-bottom: 20px;
         }
 
-        /* 修正日期與顧問並排：使用精準比例且絕不重疊 */
+        /* 👑 重新調校：縮小日期、放大顧問，防止過大或變形 */
         .date-consultant-group {
             display: grid;
-            grid-template-columns: 5.5fr 4.5fr;
-            gap: 15px;
+            grid-template-columns: 4.8fr 5.2fr; /* 精細調整日期比例，使其更小 */
+            gap: 12px;
             margin-bottom: 20px;
+            align-items: flex-end;
         }
         .date-consultant-group .form-group {
             margin-bottom: 0;
@@ -73,9 +75,9 @@
 
         label {
             display: block;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 8px;
-            color: #c5a880; /* 金色標籤 */
+            color: #c5a880; 
             font-size: 0.9rem;
             letter-spacing: 1px;
         }
@@ -85,17 +87,24 @@
             margin-left: 4px;
         }
 
-        /* 輸入框與選擇框 */
+        /* 輸入框與選擇框：全數強制套用思源宋體 */
         input[type="text"], input[type="date"], select, textarea {
             width: 100%;
-            padding: 12px;
+            padding: 11px 10px;
             background-color: #0b0b0c;
             color: #ffffff;
             border: 1px solid #2c2c2e;
             box-sizing: border-box;
-            font-size: 15px;
-            font-family: 'Noto Serif TC', serif;
+            font-size: 14px; /* 稍微縮小字體更顯精緻 */
+            font-family: 'Noto Serif TC', 'Songti TC', serif;
             transition: all 0.3s;
+            border-radius: 0px; /* 維持與截圖一相同的高級俐落直角 */
+        }
+        
+        /* 針對 iOS 手機日期輸入框字體微調 */
+        input[type="date"] {
+            font-size: 13.5px; 
+            padding: 10px 6px;
         }
         
         select {
@@ -120,7 +129,6 @@
             line-height: 1.5;
         }
 
-        /* 隱藏的自訂輸入框 */
         .conditional-input {
             display: none;
             margin-top: 12px;
@@ -135,6 +143,7 @@
         }
         .tag {
             font-size: 12px;
+            font-family: 'Noto Serif TC', 'Songti TC', serif;
             background-color: rgba(197, 168, 128, 0.05);
             color: #c5a880;
             border: 1px solid rgba(197, 168, 128, 0.2);
@@ -156,8 +165,8 @@
 
         .submit-btn {
             flex: 2.5;
-            background-color: #c5a880; /* 金底 */
-            color: #0b0b0c; /* 黑字 */
+            background-color: #c5a880; 
+            color: #0b0b0c; 
             border: none;
             padding: 15px;
             font-size: 16px;
@@ -238,7 +247,8 @@
         <div class="form-group">
             <label>4. 推薦名單是否</label>
             <select id="q4">
-                <option value="否" selected>否</option> <option value="是">是</option>
+                <option value="否" selected>否</option>
+                <option value="是">是</option>
             </select>
         </div>
 
@@ -409,7 +419,7 @@
                 "10.今天來看健身房需求/動機：" + q10.value + "\n" +
                 "11.未成交原因/訪客問題：" + q11.value + "\n" +
                 "12.體驗天數：" + document.getElementById("q12").value + "\n" +
-                "13.未開體驗原因 suicide：" + q13FinalValue + "\n" +
+                "13.未開體驗原因：" + q13FinalValue + "\n" +
                 "14.何時確認入會意願：" + document.getElementById("q14").value;
 
             navigator.clipboard.writeText(textText).then(function() {
