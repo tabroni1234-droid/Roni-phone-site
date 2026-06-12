@@ -9,14 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
     
     <style>
-        /* 電影感深色調與奢華字體設定 */
         body {
             font-family: "Playfair Display", "Noto Serif TC", "Songti TC", serif;
             background-color: #070707;
             background-image: radial-gradient(circle at 50% 30%, #12110e 0%, #070707 70%);
             color: #e5e5e5;
             margin: 0;
-            padding: 40px 20px;
+            padding: 30px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -24,35 +23,77 @@
             box-sizing: border-box;
         }
 
-        /* 懸浮感香檳鈦金卡片 */
         .form-container {
             background-color: rgba(22, 21, 19, 0.85);
             width: 100%;
             max-width: 520px;
-            padding: 45px 35px;
+            padding: 40px 30px;
             border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 
-                        0 0 40px rgba(223, 193, 123, 0.03);
-            border: 1px solid rgba(223, 193, 123, 0.15); /* 極細奢華霧金邊框 */
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 40px rgba(223, 193, 123, 0.03);
+            border: 1px solid rgba(223, 193, 123, 0.15);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             box-sizing: border-box;
         }
 
-        /* 標題設計 - 頂級奢華感 */
         h2 {
             text-align: center;
-            color: #dfc17b; /* 香檳鈦金 */
+            color: #dfc17b; 
             margin-top: 0;
-            margin-bottom: 35px;
-            font-size: 26px;
+            margin-bottom: 25px;
+            font-size: 24px;
             letter-spacing: 4px;
             font-weight: 700;
             text-shadow: 0 4px 15px rgba(223,193,123,0.2);
         }
 
+        /* Tabs 分頁設計 */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(223, 193, 123, 0.15);
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #77736a;
+            padding: 12px;
+            font-size: 15px;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            letter-spacing: 1px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            color: #dfc17b;
+            border-bottom: 2px solid #dfc17b;
+            font-weight: 700;
+            background-color: rgba(223, 193, 123, 0.03);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .form-group {
-            margin-bottom: 26px;
+            margin-bottom: 24px;
         }
 
         .row-group {
@@ -64,17 +105,21 @@
             margin-bottom: 0;
         }
 
-        /* 題目字體樣式 - 輕優雅 */
         label {
             display: block;
             font-weight: 400;
             margin-bottom: 10px;
-            color: #baa16c; /* 暮光金 */
+            color: #baa16c; 
             font-size: 14px;
             letter-spacing: 1px;
         }
 
-        /* 絲滑現代輸入欄位、下拉選單、文字方塊 */
+        /* 必填星號調色 */
+        label .required {
+            color: #ff5252;
+            margin-left: 4px;
+        }
+
         input[type="text"], input[type="date"], select, textarea {
             width: 100%;
             padding: 14px 16px;
@@ -87,14 +132,11 @@
             transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
             box-sizing: border-box;
             letter-spacing: 0.5px;
-            
-            /* 解除 iOS 預設樣式 */
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
         }
 
-        /* 下拉選單自訂香檳金幾何箭頭 */
         select {
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12px' height='12px' viewBox='0 0 24 24' fill='%23dfc17b'><path d='M7 10l5 5 5-5z'/></svg>");
             background-repeat: no-repeat;
@@ -102,7 +144,6 @@
             padding-right: 35px;
         }
 
-        /* 點擊欄位時的呼吸燈特效 */
         input:focus, select:focus, textarea:focus {
             border-color: #dfc17b;
             background-color: rgba(42, 39, 34, 0.9);
@@ -110,7 +151,34 @@
             box-shadow: 0 0 20px rgba(223, 193, 123, 0.18);
         }
 
-        /* 質感調校的 Placeholder 顏色 */
+        /* 防呆錯誤提示發光 */
+        input.error, textarea.error {
+            border-color: #ff5252 !important;
+            box-shadow: 0 0 15px rgba(255, 82, 82, 0.25) !important;
+        }
+
+        /* 快速帶入標籤樣式 */
+        .quick-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            font-size: 11px;
+            background-color: rgba(223, 193, 123, 0.06);
+            color: #baa16c;
+            border: 1px solid rgba(223, 193, 123, 0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tag:hover {
+            background-color: rgba(223, 193, 123, 0.15);
+            color: #dfc17b;
+        }
+
         ::placeholder {
             color: #55524c;
             font-size: 14px;
@@ -118,18 +186,18 @@
 
         textarea {
             resize: vertical;
-            min-height: 95px;
+            min-height: 100px;
             line-height: 1.6;
         }
 
-        /* 高級感雙按鈕美學排版 */
+        /* 按鈕群組 */
         .btn-group {
             display: flex;
             gap: 14px;
             margin-top: 35px;
         }
 
-        .submit-btn {
+        .submit-btn, .next-btn {
             flex: 2.2;
             background: linear-gradient(135deg, #dfc17b 0%, #b89855 100%);
             color: #0d0d0d;
@@ -143,16 +211,18 @@
             box-shadow: 0 6px 25px rgba(223, 193, 123, 0.25);
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
             letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .next-btn {
+            background: rgba(223, 193, 123, 0.1);
+            color: #dfc17b;
+            border: 1px solid rgba(223, 193, 123, 0.4);
+            box-shadow: none;
         }
 
         .submit-btn:hover {
             box-shadow: 0 8px 30px rgba(223, 193, 123, 0.4);
-            transform: translateY(-1px);
-        }
-
-        .submit-btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 4px 15px rgba(223, 193, 123, 0.2);
         }
 
         .reset-btn {
@@ -174,10 +244,6 @@
             border-color: rgba(223, 193, 123, 0.4);
             background-color: rgba(223, 193, 123, 0.02);
         }
-
-        .reset-btn:active {
-            background-color: rgba(223, 193, 123, 0.05);
-        }
     </style>
 </head>
 <body>
@@ -185,130 +251,199 @@
 <div class="form-container">
     <h2>❌未成交回報❌</h2>
     
+    <div class="tabs">
+        <button type="button" class="tab-btn active" id="btn-tab1" onclick="switchTab('tab1')">基本背景</button>
+        <button type="button" class="tab-btn" id="btn-tab2" onclick="switchTab('tab2')">需求與追蹤</button>
+    </div>
+
     <form id="reportForm">
-        <div class="row-group">
-            <div class="form-group">
-                <label>1. 日期</label>
-                <input type="date" id="q1_date">
+        
+        <div id="tab1" class="tab-content active">
+            <div class="row-group">
+                <div class="form-group">
+                    <label>1. 日期</label>
+                    <input type="date" id="q1_date">
+                </div>
+                <div class="form-group">
+                    <label>顧問</label>
+                    <select id="q1_consultant" onchange="saveConsultant(this.value)">
+                        <option value="Zee">Zee</option>
+                        <option value="Wen">Wen</option>
+                        <option value="Peter">Peter</option>
+                        <option value="Allen">Allen</option>
+                        <option value="Roni">Roni</option>
+                    </select>
+                </div>
             </div>
+
             <div class="form-group">
-                <label>顧問</label>
-                <select id="q1_consultant">
-                    <option value="Zee">Zee</option>
-                    <option value="Wen">Wen</option>
-                    <option value="Peter">Peter</option>
-                    <option value="Allen">Allen</option>
-                    <option value="Roni">Roni</option>
+                <label>2. 姓名<span class="required">*</span></label>
+                <input type="text" id="q2" placeholder="請輸入訪客姓名" oninput="this.classList.remove('error')">
+            </div>
+
+            <div class="form-group">
+                <label>3. 來源</label>
+                <select id="q3">
+                    <option value="APT">APT</option>
+                    <option value="BR">BR</option>
+                    <option value="WI">WI</option>
+                    <option value="推薦體驗">推薦體驗</option>
                 </select>
             </div>
+
+            <div class="form-group">
+                <label>4. 推薦名單是否</label>
+                <select id="q4">
+                    <option value="是">是</option>
+                    <option value="否">否</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>5. 住家在哪/車程</label>
+                <input type="text" id="q5" placeholder="例：西區 / 車程 10 分鐘">
+                <div class="quick-tags">
+                    <span class="tag" onclick="fillField('q5', '西區 / 車程 5 分鐘')">5分</span>
+                    <span class="tag" onclick="fillField('q5', '東區 / 車程 15 分鐘')">15分</span>
+                    <span class="tag" onclick="fillField('q5', '北區 / 車程 20 分鐘')">20分</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>6. 公司在哪/職業</label>
+                <input type="text" id="q6" placeholder="例：東區 / 辦公室內勤">
+            </div>
+
+            <div class="form-group">
+                <label>7. 運動時段</label>
+                <input type="text" id="q7" placeholder="例：下班後 19:00 左右">
+            </div>
+
+            <div class="form-group">
+                <label>8. 有無健身房經驗</label>
+                <input type="text" id="q8" placeholder="例：無，曾自主慢跑一年">
+            </div>
+
+            <div class="form-group">
+                <label>9. 從哪出發來健身路程/車程</label>
+                <input type="text" id="q9" placeholder="例：從公司過來約 15 分鐘">
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="reset-btn" onclick="resetForm()">清空</button>
+                <button type="button" class="next-btn" onclick="switchTab('tab2')">下一步 ➔</button>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>2. 姓名</label>
-            <input type="text" id="q2" placeholder="請輸入訪客姓名">
+        <div id="tab2" class="tab-content">
+            <div class="form-group">
+                <label>10. 今天來看健身房需求/動機<span class="required">*</span></label>
+                <textarea id="q10" placeholder="例：想減脂、增肌..." oninput="this.classList.remove('error')"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>11. 未成交原因/訪客問題<span class="required">*</span></label>
+                <textarea id="q11" placeholder="例：價格稍微超出預期..." oninput="this.classList.remove('error')"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>12. 體驗天數</label>
+                <select id="q12">
+                    <option value="無">無</option>
+                    <option value="1+3">1+3</option>
+                    <option value="1+7">1+7</option>
+                    <option value="14">14</option>
+                    <option value="30">30</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>13. 未開體驗原因</label>
+                <input type="text" id="q13" placeholder="例：直接拒絕、時間近期無法配合">
+            </div>
+
+            <div class="form-group">
+                <label>14. 何時確認入會意願</label>
+                <input type="text" id="q14" placeholder="例：預計下週一電話追蹤確認">
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="reset-btn" onclick="switchTab('tab1')">⬅ 返回</button>
+                <button type="button" class="submit-btn" onclick="copyAndGoToLine()">✨ 完成並複製到剪貼簿</button>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>3. 來源</label>
-            <select id="q3">
-                <option value="APT">APT</option>
-                <option value="BR">BR</option>
-                <option value="WI">WI</option>
-                <option value="推薦體驗">推薦體驗</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>4. 推薦名單是否</label>
-            <select id="q4">
-                <option value="是">是</option>
-                <option value="否">否</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>5. 住家在哪/車程</label>
-            <input type="text" id="q5" placeholder="例：西區 / 車程 10 分鐘">
-        </div>
-        <div class="form-group">
-            <label>6. 公司在哪/職業</label>
-            <input type="text" id="q6" placeholder="例：東區 / 辦公室內勤">
-        </div>
-        <div class="form-group">
-            <label>7. 運動時段</label>
-            <input type="text" id="q7" placeholder="例：下班後 19:00 左右">
-        </div>
-        <div class="form-group">
-            <label>8. 有無健身房經驗</label>
-            <input type="text" id="q8" placeholder="例：無，曾自主慢跑一年">
-        </div>
-        <div class="form-group">
-            <label>9. 從哪出發來健身路程/車程</label>
-            <input type="text" id="q9" placeholder="例：從公司過來約 15 分鐘">
-        </div>
-
-        <div class="form-group">
-            <label>10. 今天來看健身房需求/動機</label>
-            <textarea id="q10" placeholder="例：想減脂、增肌，改善久坐造成的腰酸背痛..."></textarea>
-        </div>
-        <div class="form-group">
-            <label>11. 未成交原因/訪客問題</label>
-            <textarea id="q11" placeholder="例：價格稍微超出預期，表示想回去跟家人商量..."></textarea>
-        </div>
-
-        <div class="form-group">
-            <label>12. 體驗天數</label>
-            <select id="q12">
-                <option value="無">無</option>
-                <option value="1+3">1+3</option>
-                <option value="1+7">1+7</option>
-                <option value="14">14</option>
-                <option value="30">30</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>13. 未開體驗原因</label>
-            <input type="text" id="q13" placeholder="例：直接拒絕、時間近期無法配合">
-        </div>
-        <div class="form-group">
-            <label>14. 何時確認入會意願</label>
-            <input type="text" id="q14" placeholder="例：預計下週一電話追蹤確認">
-        </div>
-
-        <div class="btn-group">
-            <button type="button" class="reset-btn" onclick="resetForm()">清空</button>
-            <button type="button" class="submit-btn" onclick="copyAndGoToLine()">✨ 完成並複製</button>
-        </div>
     </form>
 </div>
 
 <script>
-function setTodayDate() {
+window.onload = function() {
     let today = new Date();
     let dd = String(today.getDate()).padStart(2, '0');
     let mm = String(today.getMonth() + 1).padStart(2, '0');
     let yyyy = today.getFullYear();
     document.getElementById('q1_date').value = yyyy + '-' + mm + '-' + dd;
+
+    let savedConsultant = localStorage.getItem('selectedConsultant');
+    if (savedConsultant) {
+        document.getElementById('q1_consultant').value = savedConsultant;
+    }
+};
+
+function saveConsultant(val) {
+    localStorage.setItem('selectedConsultant', val);
 }
 
-window.onload = setTodayDate;
+function fillField(id, val) {
+    document.getElementById(id).value = val;
+}
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+    document.getElementById(tabId).classList.add('active');
+    if(tabId === 'tab1') {
+        document.getElementById('btn-tab1').classList.add('active');
+    } else {
+        document.getElementById('btn-tab2').classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function resetForm() {
     if(confirm("確定要清空目前填寫的所有內容嗎？")) {
         document.getElementById("reportForm").reset();
-        setTodayDate();
+        let today = new Date();
+        document.getElementById('q1_date').value = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+        let savedConsultant = localStorage.getItem('selectedConsultant');
+        if (savedConsultant) document.getElementById('q1_consultant').value = savedConsultant;
+        switchTab('tab1');
     }
 }
 
 function copyAndGoToLine() {
+    let q2 = document.getElementById("q2");
+    let q10 = document.getElementById("q10");
+    let q11 = document.getElementById("q11");
+    let hasError = false;
+
+    if(!q2.value.trim()) { q2.classList.add('error'); hasError = true; }
+    if(!q10.value.trim()) { q10.classList.add('error'); hasError = true; }
+    if(!q11.value.trim()) { q11.classList.add('error'); hasError = true; }
+
+    if(hasError) {
+        alert("請填寫標記有紅星(*)的核心必填欄位喔！");
+        if(!q2.value.trim()) switchTab('tab1');
+        return;
+    }
+
     let dateVal = document.getElementById("q1_date").value;
     let consultantVal = document.getElementById("q1_consultant").value;
     
-    // 乾淨、精準、無英文雜質的複製文字格式
     let textText = "❌未成交回報❌\n" +
         "1.日期/顧問：" + dateVal + " / " + consultantVal + "\n" +
-        "2.姓名：" + document.getElementById("q2").value + "\n" +
+        "2.姓名：" + q2.value + "\n" +
         "3.來源（Ap/Br/Wi/Ti/網路名單/推體）：" + document.getElementById("q3").value + "\n" +
         "4.推薦名單是否：" + document.getElementById("q4").value + "\n" +
         "5.住家在哪/車程：" + document.getElementById("q5").value + "\n" +
@@ -316,17 +451,17 @@ function copyAndGoToLine() {
         "7.運動時段：" + document.getElementById("q7").value + "\n" +
         "8.有無健身房經驗：" + document.getElementById("q8").value + "\n" +
         "9.從哪出發來健身路程/車程：" + document.getElementById("q9").value + "\n" +
-        "10.今天來看健身房需求/動機：" + document.getElementById("q10").value + "\n" +
-        "11.未成交原因/訪客問題：" + document.getElementById("q11").value + "\n" +
+        "10.今天來看健身房需求/動機：" + q10.value + "\n" +
+        "11.未成交原因/訪客問題：" + q11.value + "\n" +
         "12.體驗天數：" + document.getElementById("q12").value + "\n" +
         "13.未開體驗原因：" + document.getElementById("q13").value + "\n" +
         "14.何時確認入會意願：" + document.getElementById("q14").value;
 
     navigator.clipboard.writeText(textText).then(function() {
-        alert("已複製精品版回報內容！即將為您打開 LINE。");
-        window.location.href = "line://";
-    }).catch(function(err) {
-        alert("複製失敗，請手動複製。");
+        // 修改為您指定的專屬祝賀詞
+        alert("已為您複製到剪貼簿，直接於群組貼上即可！Roni祝您大爆單！");
+    }).catch(function() {
+        alert("複製失敗，請手動全選複製。");
     });
 }
 </script>
