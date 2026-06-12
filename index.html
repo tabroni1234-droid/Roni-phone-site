@@ -5,41 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>❌未成交回報❌</title>
     <style>
-        /* 整體質感字體與背景設定 */
+        /* 頂級暗黑質感背景設定 */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
-            background-color: #f8f9fa;
-            color: #333333;
+            background-color: #121212;
+            color: #e0e0e0;
             margin: 0;
             padding: 20px;
             display: flex;
             justify-content: center;
         }
 
-        /* 表單容器防溢出與陰影 */
+        /* 深色表單容器 */
         .form-container {
-            background-color: #ffffff;
+            background-color: #1e1e1e;
             width: 100%;
             max-width: 500px;
             padding: 30px 25px;
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #2d2d2d;
             box-sizing: border-box;
         }
 
         /* 標題設計 */
         h2 {
             text-align: center;
-            color: #d9534f;
+            color: #ff5252;
             margin-top: 0;
             margin-bottom: 25px;
             font-size: 24px;
             letter-spacing: 1px;
+            font-weight: 700;
         }
 
         /* 每一題的區塊 */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 22px;
+        }
+
+        /* 日期與顧問並排的區塊 */
+        .row-group {
+            display: flex;
+            gap: 12px;
+        }
+        .row-group .form-group {
+            flex: 1;
+            margin-bottom: 0;
         }
 
         /* 題目字體樣式 */
@@ -47,29 +59,38 @@
             display: block;
             font-weight: 600;
             margin-bottom: 8px;
-            color: #4a4a4a;
-            font-size: 15px;
+            color: #aaaaaa;
+            font-size: 14px;
         }
 
-        /* 輸入欄位質感設計 */
-        input[type="text"], textarea {
+        /* 暗黑模式輸入欄位、下拉選單、文字方塊質感設計 */
+        input[type="text"], input[type="date"], select, textarea {
             width: 100%;
             padding: 12px 14px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #333333;
             border-radius: 8px;
             font-size: 15px;
-            background-color: #fafafa;
+            background-color: #252525;
+            color: #ffffff;
             transition: all 0.3s ease;
             box-sizing: border-box;
-            color: #333;
+            -webkit-appearance: none; /* 修正 iOS 下拉選單預設樣式 */
         }
 
-        /* 點擊欄位時的亮框特效 */
-        input[type="text"]:focus, textarea:focus {
-            border-color: #a0a0a0;
-            background-color: #ffffff;
+        /* 為了讓下拉選單在手機上有箭頭 */
+        select {
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10px' height='10px' viewBox='0 0 24 24' fill='%23aaa'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 30px;
+        }
+
+        /* 點擊欄位時的聚焦特效 */
+        input:focus, select:focus, textarea:focus {
+            border-color: #ff5252;
+            background-color: #2a2a2a;
             outline: none;
-            box-shadow: 0 0 8px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 0 10px rgba(255, 82, 82, 0.15);
         }
 
         /* 適合打長文的未成交原因等欄位 */
@@ -79,18 +100,18 @@
             font-family: inherit;
         }
 
-        /* 按鈕設計 */
+        /* LINE 按鈕設計 */
         .submit-btn {
             width: 100%;
-            background-color: #06C755; /* LINE 的經典綠色 */
+            background-color: #06C755; 
             color: white;
             border: none;
-            padding: 15px;
+            padding: 16px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 12px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(6, 199, 85, 0.2);
+            box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
             transition: all 0.2s ease;
             margin-top: 15px;
             letter-spacing: 0.5px;
@@ -108,10 +129,23 @@
     <h2>❌未成交回報❌</h2>
     
     <form id="reportForm">
-        <div class="form-group">
-            <label>1. 日期/顧問：</label>
-            <input type="text" id="q1" placeholder="請輸入">
+        <div class="row-group" style="margin-bottom: 22px;">
+            <div class="form-group">
+                <label>1. 日期：</label>
+                <input type="date" id="q1_date">
+            </div>
+            <div class="form-group">
+                <label>顧問：</label>
+                <select id="q1_consultant">
+                    <option value="Zee">Zee</option>
+                    <option value="Wen">Wen</option>
+                    <option value="Peter">Peter</option>
+                    <option value="Allen">Allen</option>
+                    <option value="Roni">Roni</option>
+                </select>
+            </div>
         </div>
+
         <div class="form-group">
             <label>2. 姓名：</label>
             <input type="text" id="q2" placeholder="請輸入">
@@ -170,10 +204,25 @@
 </div>
 
 <script>
+// 自動偵測並填入手機當天日期
+window.onload = function() {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); // 一月是 0
+    let yyyy = today.getFullYear();
+    
+    let formattedDate = yyyy + '-' + mm + '-' + dd;
+    document.getElementById('q1_date').value = formattedDate;
+};
+
 function copyAndGoToLine() {
+    // 組合日期與顧問
+    let dateVal = document.getElementById("q1_date").value;
+    let consultantVal = document.getElementById("q1_consultant").value;
+    
     // 組合複製的文字格式
     let textText = "❌未成交回報❌\n" +
-        "1.日期/顧問：" + document.getElementById("q1").value + "\n" +
+        "1.日期/顧問：" + dateVal + " / " + consultantVal + "\n" +
         "2.姓名：" + document.getElementById("q2").value + "\n" +
         "3.來源（Ap/Br/Wi/Ti/網路名單/推體）：" + document.getElementById("q3").value + "\n" +
         "4.推薦名單是否：" + document.getElementById("q4").value + "\n" +
@@ -191,7 +240,6 @@ function copyAndGoToLine() {
     // 執行複製到剪貼簿
     navigator.clipboard.writeText(textText).then(function() {
         alert("已成功複製回報內容！即將為您打開 LINE。");
-        // 跳轉到 LINE App
         window.location.href = "line://";
     }).catch(function(err) {
         alert("複製失敗，請手動全選複製。錯誤原因: ", err);
