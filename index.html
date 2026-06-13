@@ -139,11 +139,6 @@
             line-height: 1.5;
         }
 
-        .conditional-input {
-            display: none;
-            margin-top: 12px;
-        }
-
         /* 快速標籤小方塊 */
         .quick-tags {
             display: flex;
@@ -309,13 +304,7 @@
 
         <div class="form-group" id="q13_container">
             <label id="q13_label">13. 未開體驗原因</label>
-            <select id="q13_select" onchange="toggleReasonInput(this.value)">
-                <option value="無">無</option>
-                <option value="custom">輸入原因</option>
-            </select>
-            <div id="q13_custom_container" class="conditional-input">
-                <input type="text" id="q13_custom_input" placeholder="請打字輸入未開體驗的具體原因">
-            </div>
+            <input type="text" id="q13_input" placeholder="請輸入未開體驗的具體原因">
         </div>
 
         <div class="form-group" id="q14_container">
@@ -369,19 +358,17 @@
             let q14Label = document.getElementById("q14_label");
 
             if(val === "無") {
-                // 12題選「無」：顯示未開體驗原因，標題回歸正常 13 與 14
+                // 12題選「無」：直接顯示第13題輸入框
                 q13Container.style.display = "block";
                 document.getElementById("q13_label").innerText = "13. 未開體驗原因";
                 q14Label.innerText = "14. 何時確認入會意願";
             } else {
-                // 12題選其他：隱藏未開體驗原因，並將何時確認意願遞補為「13.」
+                // 12題選其他：隱藏未開體驗原因輸入框，原本的14題標題變成「13.」
                 q13Container.style.display = "none";
                 q14Label.innerText = "13. 何時確認入會意願";
                 
-                // 還原隱藏欄位的值
-                document.getElementById("q13_select").value = "無";
-                document.getElementById("q13_custom_container").style.display = "none";
-                document.getElementById("q13_custom_input").value = "";
+                // 還原隱藏輸入框的值
+                document.getElementById("q13_input").value = "";
             }
         }
 
@@ -391,17 +378,6 @@
 
         function fillField(id, val) {
             document.getElementById(id).value = val;
-        }
-
-        function toggleReasonInput(val) {
-            let container = document.getElementById("q13_custom_container");
-            if(val === "custom") {
-                container.style.display = "block";
-                document.getElementById("q13_custom_input").focus();
-            } else {
-                container.style.display = "none";
-                document.getElementById("q13_custom_input").value = ""; 
-            }
         }
 
         function resetForm() {
@@ -450,16 +426,11 @@
                 "12.體驗天數：" + q12Val;
 
             if(q12Val === "無") {
-                let q13Select = document.getElementById("q13_select").value;
-                let q13FinalValue = "無";
-                if(q13Select === "custom") {
-                    let customInput = document.getElementById("q13_custom_input").value.trim();
-                    q13FinalValue = customInput ? customInput : "無"; 
-                }
+                let q13InputValue = document.getElementById("q13_input").value.trim();
+                let q13FinalValue = q13InputValue ? q13InputValue : "無"; 
                 textText += "\n13.未開體驗原因：" + q13FinalValue;
                 textText += "\n14.何時確認入會意願：" + document.getElementById("q14").value;
             } else {
-                // 如果體驗天數有開，群組文字會將原14題直接接在後面（以符合回報邏輯，這裡您可以視需求改成13.，目前代碼維持原回報規範格式）
                 textText += "\n14.何時確認入會意願：" + document.getElementById("q14").value;
             }
 
