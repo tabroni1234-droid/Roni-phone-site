@@ -113,7 +113,7 @@
             min-height: 43px;
         }
         
-        /* 讓下拉選單在 iOS 上依然保有右側自訂小箭頭（選填，維持簡潔亦可不加，這邊幫你加上優雅的倒三角形） */
+        /* 讓下拉選單在 iOS 上依然保有右側自訂小箭頭 */
         select {
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='%23c5a880' d='M0 0l5 6 5-6z'/></svg>");
             background-repeat: no-repeat;
@@ -308,7 +308,7 @@
         </div>
 
         <div class="form-group" id="q13_container">
-            <label>13. 未開體驗原因</label>
+            <label id="q13_label">13. 未開體驗原因</label>
             <select id="q13_select" onchange="toggleReasonInput(this.value)">
                 <option value="無">無</option>
                 <option value="custom">輸入原因</option>
@@ -318,8 +318,8 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label>14. 何時確認入會意願</label>
+        <div class="form-group" id="q14_container">
+            <label id="q14_label">14. 何時確認入會意願</label>
             <input type="text" id="q14" placeholder="例：預計下週一電話追蹤確認">
         </div>
 
@@ -343,7 +343,6 @@
                 document.getElementById('q1_consultant').value = savedConsultant;
             }
             
-            // 初始執行一次判斷，確保畫面載入時第 13 題的狀態是正確的
             handleQ12Change(document.getElementById('q12').value);
         };
 
@@ -354,7 +353,6 @@
             } else {
                 q4Select.value = "否";
             }
-            // 觸發 Q4 連動
             handleQ4Change(q4Select.value);
         }
 
@@ -362,18 +360,25 @@
             if(val === "是") {
                 let q12Select = document.getElementById("q12");
                 q12Select.value = "30";
-                // 體驗天數跳到 30，連帶觸發第 12 題的消失機制
                 handleQ12Change("30");
             }
         }
 
         function handleQ12Change(val) {
             let q13Container = document.getElementById("q13_container");
+            let q14Label = document.getElementById("q14_label");
+
             if(val === "無") {
-                q13Container.style.display = "block"; // 顯示第 13 題
+                // 12題選「無」：顯示未開體驗原因，標題回歸正常 13 與 14
+                q13Container.style.display = "block";
+                document.getElementById("q13_label").innerText = "13. 未開體驗原因";
+                q14Label.innerText = "14. 何時確認入會意願";
             } else {
-                q13Container.style.display = "none";  // 隱藏第 13 題
-                // 隱藏時順便把裡面的欄位還原
+                // 12題選其他：隱藏未開體驗原因，並將何時確認意願遞補為「13.」
+                q13Container.style.display = "none";
+                q14Label.innerText = "13. 何時確認入會意願";
+                
+                // 還原隱藏欄位的值
                 document.getElementById("q13_select").value = "無";
                 document.getElementById("q13_custom_container").style.display = "none";
                 document.getElementById("q13_custom_input").value = "";
@@ -407,7 +412,6 @@
                 let savedConsultant = localStorage.getItem('selectedConsultant');
                 if (savedConsultant) document.getElementById('q1_consultant').value = savedConsultant;
                 
-                // 重設後也同步將狀態校正
                 handleQ12Change(document.getElementById('q12').value);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -432,7 +436,6 @@
             let consultantVal = document.getElementById("q1_consultant").value;
             let q12Val = document.getElementById("q12").value;
             
-            // 組合文字
             let textText = "❌未成交回報❌\n" +
                 "1.日期/顧問：" + dateVal + " / " + consultantVal + "\n" +
                 "2.姓名：" + q2.value + "\n" +
@@ -446,7 +449,6 @@
                 "11.未成交原因/訪客問題：" + q11.value + "\n" +
                 "12.體驗天數：" + q12Val;
 
-            // 如果第 12 題是「無」，才會把第 13 題放到複製的文字內容裡
             if(q12Val === "無") {
                 let q13Select = document.getElementById("q13_select").value;
                 let q13FinalValue = "無";
@@ -455,9 +457,11 @@
                     q13FinalValue = customInput ? customInput : "無"; 
                 }
                 textText += "\n13.未開體驗原因：" + q13FinalValue;
+                textText += "\n14.何時確認入會意願：" + document.getElementById("q14").value;
+            } else {
+                // 如果體驗天數有開，群組文字會將原14題直接接在後面（以符合回報邏輯，這裡您可以視需求改成13.，目前代碼維持原回報規範格式）
+                textText += "\n14.何時確認入會意願：" + document.getElementById("q14").value;
             }
-
-            textText += "\n14.何時確認入會意願：" + document.getElementById("q14").value;
 
             navigator.clipboard.writeText(textText).then(function() {
                 alert("已為您複製到剪貼簿，直接於群組貼上即可！祝您大爆單！");
