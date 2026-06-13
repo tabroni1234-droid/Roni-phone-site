@@ -253,31 +253,19 @@
 
         <div class="form-group">
             <label>4. 推薦名單是否</label>
-            <select id="q4">
+            <select id="q4" onchange="handleQ4Change(this.value)">
                 <option value="否" selected>否</option>
                 <option value="是">是</option>
             </select>
         </div>
 
         <div class="form-group">
-            <label>5. 住家在哪/車程</label>
-            <input type="text" id="q5" placeholder="例：民雄鄉 / 車程 10 分鐘">
+            <label>5. 住家在哪/車程/職業</label>
+            <input type="text" id="q5" placeholder="例：民雄鄉 / 車程 10 分鐘 / 辦公室內勤">
             <div class="quick-tags">
                 <span class="tag" onclick="fillField('q5', '民雄鄉')">民雄鄉</span>
                 <span class="tag" onclick="fillField('q5', '大林鎮')">大林鎮</span>
-                <span class="tag" onclick="fillField('q5', '中正大學附近')">中正大學附近</span>
-                <span class="tag" onclick="fillField('q5', '溪口鄉')">溪口鄉</span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label>6. 公司在哪/職業</label>
-            <input type="text" id="q6" placeholder="例：大林鎮 / 辦公室內勤">
-            <div class="quick-tags">
-                <span class="tag" onclick="fillField('q6', '民雄鄉')">民雄鄉</span>
-                <span class="tag" onclick="fillField('q6', '大林鎮')">大林鎮</span>
-                <span class="tag" onclick="fillField('q6', '中正大學附近')">中正大學附近</span>
-                <span class="tag" onclick="fillField('q6', '頭橋工業區')">頭橋工業區</span>
+                <span class="tag" onclick="fillField('q5', '嘉義市區')">嘉義市區</span>
             </div>
         </div>
 
@@ -310,8 +298,8 @@
 
         <div class="form-group">
             <label>12. 體驗天數</label>
-            <select id="q12">
-                <option value="無">無</option>
+            <select id="q12" onchange="handleQ12Change(this.value)">
+                <option value="無" selected>無</option>
                 <option value="1+3">1+3</option>
                 <option value="1+7">1+7</option>
                 <option value="14">14</option>
@@ -319,7 +307,7 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" id="q13_container">
             <label>13. 未開體驗原因</label>
             <select id="q13_select" onchange="toggleReasonInput(this.value)">
                 <option value="無">無</option>
@@ -354,6 +342,9 @@
             if (savedConsultant) {
                 document.getElementById('q1_consultant').value = savedConsultant;
             }
+            
+            // 初始執行一次判斷，確保畫面載入時第 13 題的狀態是正確的
+            handleQ12Change(document.getElementById('q12').value);
         };
 
         function handleSourceChange(val) {
@@ -362,6 +353,30 @@
                 q4Select.value = "是";
             } else {
                 q4Select.value = "否";
+            }
+            // 觸發 Q4 連動
+            handleQ4Change(q4Select.value);
+        }
+
+        function handleQ4Change(val) {
+            if(val === "是") {
+                let q12Select = document.getElementById("q12");
+                q12Select.value = "30";
+                // 體驗天數跳到 30，連帶觸發第 12 題的消失機制
+                handleQ12Change("30");
+            }
+        }
+
+        function handleQ12Change(val) {
+            let q13Container = document.getElementById("q13_container");
+            if(val === "無") {
+                q13Container.style.display = "block"; // 顯示第 13 題
+            } else {
+                q13Container.style.display = "none";  // 隱藏第 13 題
+                // 隱藏時順便把裡面的欄位還原
+                document.getElementById("q13_select").value = "無";
+                document.getElementById("q13_custom_container").style.display = "none";
+                document.getElementById("q13_custom_input").value = "";
             }
         }
 
@@ -392,7 +407,8 @@
                 let savedConsultant = localStorage.getItem('selectedConsultant');
                 if (savedConsultant) document.getElementById('q1_consultant').value = savedConsultant;
                 
-                document.getElementById("q13_custom_container").style.display = "none";
+                // 重設後也同步將狀態校正
+                handleQ12Change(document.getElementById('q12').value);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -414,29 +430,34 @@
 
             let dateVal = document.getElementById("q1_date").value;
             let consultantVal = document.getElementById("q1_consultant").value;
+            let q12Val = document.getElementById("q12").value;
             
-            let q13Select = document.getElementById("q13_select").value;
-            let q13FinalValue = "無";
-            if(q13Select === "custom") {
-                let customInput = document.getElementById("q13_custom_input").value.trim();
-                q13FinalValue = customInput ? customInput : "無"; 
-            }
-            
+            // 組合文字
             let textText = "❌未成交回報❌\n" +
                 "1.日期/顧問：" + dateVal + " / " + consultantVal + "\n" +
                 "2.姓名：" + q2.value + "\n" +
                 "3.來源（Ap/Br/Wi/Ti/網路名單/推體）：" + document.getElementById("q3").value + "\n" +
                 "4.推薦名單是否：" + document.getElementById("q4").value + "\n" +
-                "5.住家在哪/車程：" + document.getElementById("q5").value + "\n" +
-                "6.公司在哪/職業 ：" + document.getElementById("q6").value + "\n" +
+                "5.住家在哪/車程/職業：" + document.getElementById("q5").value + "\n" +
                 "7.運動時段：" + document.getElementById("q7").value + "\n" +
                 "8.有無健身房經驗：" + document.getElementById("q8").value + "\n" +
                 "9.從哪出發來健身路程/車程：" + document.getElementById("q9").value + "\n" +
                 "10.今天來看健身房需求/動機：" + q10.value + "\n" +
                 "11.未成交原因/訪客問題：" + q11.value + "\n" +
-                "12.體驗天數：" + document.getElementById("q12").value + "\n" +
-                "13.未開體驗原因：" + q13FinalValue + "\n" +
-                "14.何時確認入會意願：" + document.getElementById("q14").value;
+                "12.體驗天數：" + q12Val;
+
+            // 如果第 12 題是「無」，才會把第 13 題放到複製的文字內容裡
+            if(q12Val === "無") {
+                let q13Select = document.getElementById("q13_select").value;
+                let q13FinalValue = "無";
+                if(q13Select === "custom") {
+                    let customInput = document.getElementById("q13_custom_input").value.trim();
+                    q13FinalValue = customInput ? customInput : "無"; 
+                }
+                textText += "\n13.未開體驗原因：" + q13FinalValue;
+            }
+
+            textText += "\n14.何時確認入會意願：" + document.getElementById("q14").value;
 
             navigator.clipboard.writeText(textText).then(function() {
                 alert("已為您複製到剪貼簿，直接於群組貼上即可！祝您大爆單！");
